@@ -8,6 +8,7 @@ namespace PlanYourHeist
         static void Main(string[] args)
         {
             Console.WriteLine("Plan Your Heist!");
+            //https://gist.github.com/askingalot/aa1877148da3f3fef98ddcd17410834e
 
 
             List<Dictionary<string, string>> team =
