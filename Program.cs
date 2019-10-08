@@ -11,11 +11,10 @@ namespace PlanYourHeist
             //https://gist.github.com/askingalot/aa1877148da3f3fef98ddcd17410834e
 
 
-            List<Dictionary<string, string>> team =
-                new List<Dictionary<string, string>>();
+            List<TeamMember> team = new List<TeamMember>(); //our list now contains teammembers class
 
             Console.Write("Bank Difficulty> ");
-                int bankDifficulty = int.Parse(Console.ReadLine()); 
+            int bankDifficulty = int.Parse(Console.ReadLine());
 
             Console.WriteLine();
 
@@ -33,11 +32,11 @@ namespace PlanYourHeist
                 Console.Write("Courage factor> ");
                 string courageFactor = (Console.ReadLine()); //returns a string and parse it into double parse and return a number
 
-                Dictionary<string, string> member = new Dictionary<string, string>() {
-                    {"Name", name},
-                    {"SkillLevel", skillLevel},
-                    {"CourageFactor", courageFactor}
-                };
+                TeamMember member = new TeamMember();
+                member.Name = name;
+                member.SkillLevel = int.Parse(skillLevel);
+                member.CourageFactor = double.Parse(courageFactor);
+
                 team.Add(member);
 
                 //get the next team member's name
@@ -52,19 +51,14 @@ namespace PlanYourHeist
             int trialRunCount = int.Parse(Console.ReadLine());
             Console.WriteLine();
 
-
             //add up the skill level
             int teamSkill = 0; //keeps track of skill level outside the loop
-            foreach (Dictionary<string, string> member in team) //gives me access to each member one at a time
+            foreach (TeamMember member in team) //gives me access to each member one at a time
             {
-                string skillLevel = member["SkillLevel"]; //pull out the skill level
-                teamSkill = teamSkill + int.Parse(skillLevel); //add to the existing skill varaiable of the entire team
+                teamSkill += member.SkillLevel; //add to the existing skill varaiable of the entire team
             }
-            //created a dictionary outside of the report. phase 6
-            Dictionary<string, int> report = new Dictionary<string, int>() {
-                { "Successes", 0},
-                { "Failures", 0}
-            };
+
+            HeistReport report = new HeistReport(); //constructor created the new report, if i wanted to add capabilities into this class then i'd need a class. this stores the successcount and failurecount
 
             for (int i = 0; i < trialRunCount; i++) //we wrapped code below in for loop. every time through the loop i'll get a new luckvalue and bank difficulty
             {
@@ -81,33 +75,24 @@ namespace PlanYourHeist
                 if (trialRunBankDifficulty > teamSkill) //did the team do better than the bank difficulty level?
                 {
                     Console.WriteLine("Your heist failed :(");
-                    int failures = report["Failures"]; //get the failures out
-                    report["Failures"] = failures +1; //add one to it
+                    report.FailureCount++; //add one to it, increment it
                 }
                 else
                 {
                     Console.WriteLine("You are rich!"); //run it and see if you failed or not
-
-                    int Successes = report["Successes"];
-                    report["Successes"] = Successes +1;
+                    report.SuccessCount++;
                 }
             }
-                Console.WriteLine();
-                Console.WriteLine("Heist results");
-                Console.WriteLine("-------------");
-                Console.WriteLine($"Successes: {report["Successes"]}");
-                Console.WriteLine($"Failures: {report["Failures"]}");
-                Console.WriteLine();
-                Console.WriteLine();
+            //the report we are printing out. 
+            report.Print();
 
-
-
-
-
-
-
-
-
+            // Console.WriteLine();
+            // Console.WriteLine("Heist results");
+            // Console.WriteLine("-------------");
+            // Console.WriteLine($"Successes: {report.SuccessCount}");
+            // Console.WriteLine($"Failures: {report.FailureCount}");
+            // Console.WriteLine();
+            // Console.WriteLine();
 
             // foreach (Dictionary<string, string> member in team)
             // {
